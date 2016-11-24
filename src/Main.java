@@ -6,12 +6,13 @@ import utilities.*;
 
 
 class Main {
+	static int x ;
+    static int y ;
   public static void main(String[] args) throws Exception {
     int delay = 10;
     boolean display = true;
-
-    int x = 528;
-    int y = 260;
+    
+      
 
     MsPacInterface ms = new MsPacInterface(display);
     StatisticalSummary ss = new StatisticalSummary();

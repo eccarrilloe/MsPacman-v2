@@ -141,7 +141,7 @@ public class Agent implements Drawable, PacAgent, Constants {
                 return 0;
             }
         } else if (gs.state == 2) {
-            if (gs.closestPowerPill != null) {
+            if (gs.closestPowerPill != null ) {
                 return pos.dist(gs.closestPowerPill);
             } else {
                 return 0;

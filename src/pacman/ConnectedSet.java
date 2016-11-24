@@ -45,6 +45,7 @@ public class ConnectedSet implements Drawable {
         return ghostColor(fg) && width >= 10 && height >= 10;
         // return width == 13 && height == 13; // fg == MsPacInterface.inky;
     }
+    
 
     public boolean edible() {
         validate();

@@ -30,6 +30,9 @@ public class MsPacInterface {
     // delay between each screen capture
     static int delay = 10;
     public boolean display = false;
+    static int[] rect = new int[4];
+    static int x,y ;
+    
 
     public void analyseComponents(int[] pix) {
         ce.gs.reset();
@@ -40,8 +43,8 @@ public class MsPacInterface {
         if (display) sd.updateObjects(al);
     }
 
-    public int left = 567;
-    public int top = 277;
+    public int left;// = 567;
+    public int top;// = 277;
     public static int width = 223;
     public static int height = 249;
     int[] pixels;
@@ -70,6 +73,7 @@ public class MsPacInterface {
     }
 
     public MsPacInterface(boolean display) throws Exception {
+    	this.setWindowPosition();
         this.display = display;
         robot = new Robot();
         pixels = new int[width * height];
@@ -82,5 +86,22 @@ public class MsPacInterface {
         BufferedImage im = robot.createScreenCapture(new Rectangle(left, top, width, height));
         im.getRGB(0, 0, width, height, pixels, 0, width);
         return pixels;
+    }
+    
+    public void setWindowPosition(){
+    	 String windowName = "Ms. Pac-Man";
+    	    
+    	    try {
+    	       rect = GetWindowRect.getRect(windowName);
+    	       top =  rect[1] + 70;
+    	       left = rect[0] + 4;
+    	       System.out.println(top + " - " + left);
+    	    } catch (GetWindowRect.WindowNotFoundException e) {
+    	       e.printStackTrace();
+    	    } catch (GetWindowRect.GetWindowRectException e) {
+    	       e.printStackTrace();
+    	    }
+    	    x = top;
+    	    y = left;
     }
 }

@@ -78,12 +78,13 @@ public class GameState implements Drawable {
     }
 
     public void update(ConnectedSet cs, int[] pix) {
+    	
         if (cs.isPacMan()) {
             agent.update(cs, pix);
-        } else if (cs.ghostLike()) {
+        }
+        else if (cs.ghostLike()) {
             // update the state of the ghost distance
-
-            if (cs.edible()) {
+        	if (cs.edible()) {
                 this.state = 3;
                 iter += 1;
                 eat = true;
@@ -92,17 +93,19 @@ public class GameState implements Drawable {
                 } else {
                     int edibleIndex = ediblePositions.indexOf(cs);
                     ediblePositions.remove(edibleIndex);
-                    ediblePositions.add(cs);
+                   // ediblePositions.add(cs);
                 }
-
+                
                 tmp.set(cs.x, cs.y);
+                //tmp.set(ediblePositions.get(0).x,ediblePositions.get(0).y);
+               // ediblePositions.remove(0);
                 if (closestEdible == null) {
                     closestEdible = new Vector2d(tmp);
-                } else if (tmp.dist(agent.cur) < closestEdible.dist(agent.cur)) {
+                } else if (tmp.dist(agent.cur) < closestEdible.dist(agent.cur) && !isInBox(tmp)) {
                     closestEdible.set(tmp);
                 }
             } else {
-                if (iter >= 2000) {
+                if (iter >= 20) {
                     eat = false;
                     iter = 0;
                 } else {
@@ -124,6 +127,7 @@ public class GameState implements Drawable {
                 }
             }
         } else if (cs.powerPill()) {
+        	state = 3;
             if (! powerPills.contains(cs))
                 powerPills.add(cs);
 
@@ -143,12 +147,21 @@ public class GameState implements Drawable {
             }
         }
     }
+    
+    public boolean isInBox(Vector2d pos){
+    	if((pos.x<=141 && pos.y<=133) && (pos.x<=141 && pos.y>=103) && (pos.x>=87 && pos.y>=103) && (pos.x>=87 && pos.y<=133))
+    		return true;
+     return false;
+    }
 
     public void updateState() {
         int st = this.state; // Comer pills
         int danger = 40, warning = 60;
         if (this.eat == true && closestEdible != null) {
             st = 3; // Comer edible
+            //if (closestPowerPill != null && (agent.cur.dist(closestGhost) >= warning && agent.cur.dist(closestPowerPill) >= danger)){
+            //	st = 1;
+            //}
         } else if (closestGhost != null) {
             if (agent.cur.dist(closestGhost) <= danger) {
                 st = 1; // Escapar de ghosts
@@ -158,7 +171,6 @@ public class GameState implements Drawable {
                 st = 0;
             }
         }
-
         this.state = st;
     }
 
