@@ -1,0 +1,18 @@
+JA=java
+JAC=javac
+
+OPT="exec"
+if [[ -n "$1" ]]; then
+  OPT="$1"
+fi
+
+if [[ "$OPT" == "exec" ]]; then
+  cd bin
+  $JA Main %3 %4
+elif [[ "$OPT" == "compile" ]]; then
+  $JAC -d bin/ src/games/math/*.java src/pacman/*.java src/stats/*.java src/utilities/*.java
+elif [[ "$OPT" == "clean" ]]; then
+  rm -rf bin/*
+else
+  echo "Error: Option $OPT not found."
+fi
